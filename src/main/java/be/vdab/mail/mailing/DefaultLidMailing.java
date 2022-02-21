@@ -6,6 +6,7 @@ import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import javax.mail.MessagingException;
@@ -18,6 +19,7 @@ public class DefaultLidMailing implements LidMailing {
         this.sender = sender;
     }
 
+    @Async
     @Override
     public void stuurMailNaRegistratie(Lid lid, String ledenURL) {
         try {
@@ -30,7 +32,7 @@ public class DefaultLidMailing implements LidMailing {
             var tekst = "<h1>Je bent nu lid.</h1>Je nummer is:" + lid.getId() + ". " + "Je ziet je info <a href='" + urlVanDeLidInfo + "'>hier</a>.";
             helper.setText(tekst, true);
             sender.send(message);
-        } catch (MailException |MessagingException ex) {
+        } catch (MailException | MessagingException ex) {
             throw new KanMailNietZendenException(ex);
         }
     }
