@@ -3,6 +3,7 @@ package be.vdab.mail.services;
 import be.vdab.mail.domain.Lid;
 import be.vdab.mail.mailing.LidMailing;
 import be.vdab.mail.repositories.LidRepository;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,5 +30,14 @@ public class DefaultLidService implements LidService {
     @Override
     public Optional<Lid> findById(long id) {
         return lidRepository.findById(id);
+    }
+
+
+    @Override
+    @Transactional(readOnly = true)
+    @Scheduled(fixedRate = 60_000)
+    //test = om de minuut
+    public void stuurMailMetAantalLeden() {
+        lidMailing.stuurMailMetAantalLeden(lidRepository.count());
     }
 }

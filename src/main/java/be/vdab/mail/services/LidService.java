@@ -7,4 +7,5 @@ import java.util.Optional;
 public interface LidService {
     void registreer(Lid lid, String LedenURL);
     Optional<Lid> findById(long id);
+    void stuurMailMetAantalLeden();
 }

@@ -65,4 +65,10 @@ public class LidController {
         lidService.findById(id).ifPresent(lid -> modelAndView.addObject(lid));
         return modelAndView;
     }
+
+    @GetMapping("aantalleden")
+    public ModelAndView aantalLeden() {
+        lidService.stuurMailMetAantalLeden();
+        return new ModelAndView("registratieform").addObject(new Lid("", "", ""));
+    }
 }
